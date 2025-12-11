@@ -1,43 +1,113 @@
-# Chirpy Starter
+# okorion/tech-blog
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+> 학습 내용을 정리하는 Tech Study Blog
 
-When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jekyll can only read files in the folders
-`_data`, `_layouts`, `_includes`, `_sass` and `assets`, as well as a small part of options of the `_config.yml` file
-from the theme's gem. If you have ever installed this theme gem, you can use the command
-`bundle info --path jekyll-theme-chirpy` to locate these files.
+🔗 **Live Site**: <https://okorion.github.io/tech-blog>
 
-The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being
-able to enjoy the out-of-the-box experience when using feature-rich themes.
+---
 
-To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your
-Jekyll site. The following is a list of targets:
+## 📚 소개
 
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
+velog에 흩어져 있던 300편 이상의 학습 기록을 Jekyll + Chirpy 테마로 이관한 기술 블로그입니다. 검색, 태그, 카테고리, TOC를 통해 대량의 아카이브를 빠르게 탐색할 수 있도록 구성했습니다.
+
+---
+
+## 🛠️ 기술 스택
+
+- **Jekyll**: 4.4.1
+- **Theme**: jekyll-theme-chirpy 7.4.1
+- **Ruby**: 3.3+ (개발 환경)
+- **Plugins** (Chirpy 의존성): jekyll-archives, jekyll-paginate, jekyll-include-cache, jekyll-seo-tag, jekyll-sitemap
+- **Test/검증**: html-proofer
+
+---
+
+## 🚀 로컬 개발
+
+### 요구사항
+- Ruby 3.3 이상
+- Bundler
+
+### 설치 및 실행
+
+```bash
+bundle install
+
+# 라이브 리로드 개발 서버
+./tools/run.sh
+# 또는
+bundle exec jekyll serve -l -H 127.0.0.1
+
+# 프로덕션 모드로 확인
+./tools/run.sh -p
 ```
 
-To save you time, and also in case you lose some files while copying, we extract those files/configurations of the
-latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
+- 기본 접속: <http://127.0.0.1:4000/tech-blog/>
 
-## Usage
+### 빌드/검증
 
-Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
+```bash
+bundle exec jekyll build
+./tools/test.sh   # JEKYLL_ENV=production 빌드 + html-proofer
+```
 
-## Contributing
+---
 
-This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
+## 📁 프로젝트 구조
 
-## License
+```
+.
+├── _config.yml          # 사이트 설정 (url=https://okorion.github.io, baseurl=/tech-blog)
+├── _posts/              # 블로그 포스트 (Markdown)
+├── _tabs/               # 사이드바 탭 (About, Archives, Categories, Tags)
+├── _data/               # 연락처 등 데이터 파일
+├── assets/img/          # 이미지/아바타 리소스
+├── tools/run.sh         # 개발 서버 스크립트
+├── tools/test.sh        # 프로덕션 빌드 + 링크 검사
+├── Gemfile              # Ruby 의존성 (jekyll-theme-chirpy 7.4.1)
+└── index.html           # 홈 페이지
+```
 
-This work is published under [MIT][mit] License.
+---
 
-[gem]: https://rubygems.org/gems/jekyll-theme-chirpy
-[chirpy]: https://github.com/cotes2020/jekyll-theme-chirpy/
-[CD]: https://en.wikipedia.org/wiki/Continuous_deployment
-[mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+## ✍️ 포스트 작성
+
+새 글은 `_posts/` 디렉터리에 아래 형식으로 생성합니다:
+
+```
+YYYY-MM-DD-title-slug.md
+```
+
+**Front Matter 예시:**
+
+```yaml
+---
+title: "포스트 제목"
+date: 2025-12-06 10:00:00 +0900
+categories: [Category, Subcategory]
+tags: [tag1, tag2, tag3]
+description: "포스트 설명"
+---
+```
+
+- 포스트 이미지는 `assets/img/<slug>/` 등 슬러그 기반 경로로 두고, 마크다운에서 `/tech-blog/assets/...`로 참조합니다.
+
+---
+
+## 🌐 배포
+
+- GitHub Pages를 통해 자동 배포됩니다 (`main` 브랜치 push 시 워크플로우 실행).
+- `_config.yml`에서 `url`은 `https://okorion.github.io`, `baseurl`은 `/tech-blog`로 설정되어 있습니다.
+
+---
+
+## 📬 Contact
+
+- **GitHub**: [@okorion](https://github.com/okorion)
+- **Email**: [ok.or.orion@gmail.com](mailto:ok.or.orion@gmail.com)
+
+---
+
+## 📄 License
+
+이 프로젝트는 MIT License를 따릅니다.
