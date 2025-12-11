@@ -1,0 +1,27 @@
+---
+layout: page
+# All the Tags of posts, sorted by usage count (desc).
+---
+<div id="tags" class="d-flex flex-wrap mx-xl-2">
+  {% assign tag_keys = '' | split: '' %}
+  {% for t in site.tags %}
+    {% assign count = t[1].size %}
+    {% assign padded = count | plus: 0 | prepend: '00000' | slice: -5, 5 %}
+    {% assign sort_key = padded | append: '|' | append: t[0] %}
+    {% assign tag_keys = tag_keys | push: sort_key %}
+  {% endfor %}
+
+  {% assign sorted = tag_keys | sort | reverse %}
+
+  {% for entry in sorted %}
+    {% assign pair = entry | split: '|' %}
+    {% assign tag_name = pair[1] %}
+    {% assign tag_count = pair[0] | plus: 0 %}
+    <div>
+      <a class="tag" href="{{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+        {{ tag_name -}}
+        <span class="text-muted">{{ tag_count }}</span>
+      </a>
+    </div>
+  {% endfor %}
+</div>
