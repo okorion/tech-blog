@@ -1,0 +1,68 @@
+---
+layout: page
+# Archives view adjusted to show the latest post per category only.
+---
+{% include lang.html %}
+
+{% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
+{% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
+
+{%- comment -%}
+  Build a list of categories with the most recent post timestamp,
+  keeping only the newest post per category. Ordered by latest post date desc.
+{%- endcomment -%}
+{% assign seen_cats = '' | split: '' %}
+{% assign cat_entries = '' | split: '' %}
+{% for post in site.posts %}
+  {% assign cat = post.categories | first %}
+  {% if cat == null %}
+    {% continue %}
+  {% endif %}
+  {% if seen_cats contains cat %}
+    {% continue %}
+  {% endif %}
+  {% assign seen_cats = seen_cats | push: cat %}
+  {% assign ts = post.date | date: '%s' %}
+  {% assign iso = post.date | date_to_xmlschema %}
+  {% assign entry = ts | append: '|' | append: iso | append: '|' | append: cat %}
+  {% assign cat_entries = cat_entries | push: entry %}
+{% endfor %}
+
+{% assign sorted_entries = cat_entries | sort | reverse %}
+
+<div id="archives" class="pl-xl-3">
+  <ul class="list-unstyled">
+    {% assign last_date = '' %}
+
+    {% for entry in sorted_entries %}
+      {% assign parts = entry | split: '|' %}
+      {% assign ts = parts[0] %}
+      {% assign iso = parts[1] %}
+      {% assign cat = parts[2] %}
+      {% assign count = site.categories[cat].size %}
+      {% assign current_date_key = iso | date: '%Y-%m-%d' %}
+
+      <li>
+        {% if current_date_key != last_date %}
+          <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ iso | date: '%d' }}</span>
+          <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+            {{ iso | date: df_strftime_m }}
+          </span>
+        {% else %}
+          <!-- 날짜와 동일한 길이의 투명 텍스트로 레이아웃 유지 -->
+          <span class="date day" style="color: transparent;">{{ iso | date: '%d' }}</span>
+          <span class="date month small ms-1" style="color: transparent;">
+            {{ iso | date: df_strftime_m }}
+          </span>
+        {% endif %}
+
+        <a href="{{ cat | slugify | url_encode | prepend: '/categories/' | append: '/' | relative_url }}">
+          {{ cat }}
+        </a>
+        <span class="text-muted">({{ count }})</span>
+      </li>
+
+      {% assign last_date = current_date_key %}
+    {% endfor %}
+  </ul>
+</div>
