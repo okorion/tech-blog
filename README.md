@@ -8,7 +8,7 @@
 
 ## 📚 소개
 
-velog에 흩어져 있던 300편 이상의 학습 기록을 Jekyll + Chirpy 테마로 이관한 기술 블로그입니다. 검색, 태그, 카테고리, TOC를 통해 대량의 아카이브를 빠르게 탐색할 수 있도록 구성했습니다.
+velog에 정리하던 300편 이상의 학습 기록을 Jekyll + Chirpy 테마로 이어 나가는 기술 블로그입니다. 검색, 태그, 카테고리, TOC를 통해 대량의 아카이브를 빠르게 탐색할 수 있도록 구성했습니다.
 
 ---
 
@@ -17,7 +17,6 @@ velog에 흩어져 있던 300편 이상의 학습 기록을 Jekyll + Chirpy 테�
 - **Jekyll**: 4.4.1
 - **Theme**: jekyll-theme-chirpy 7.4.1
 - **Ruby**: 3.3+ (개발 환경)
-- **Plugins** (Chirpy 의존성): jekyll-archives, jekyll-paginate, jekyll-include-cache, jekyll-seo-tag, jekyll-sitemap
 - **Test/검증**: html-proofer
 
 ---
