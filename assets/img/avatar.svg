@@ -1,14 +1,1 @@
-<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#2563eb" />
-    </linearGradient>
-  </defs>
-  <rect width="240" height="240" rx="32" fill="url(#grad)" />
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
-        font-family="'SF Pro Display', 'Pretendard', sans-serif" font-size="56"
-        font-weight="600" fill="#e2e8f0">
-    ok
-  </text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><defs><linearGradient id="grad" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#2563eb"/></linearGradient></defs><rect width="240" height="240" fill="url(#grad)" rx="32"/><text x="50%" y="50%" fill="#e2e8f0" dominant-baseline="middle" font-family="'SF Pro Display', 'Pretendard', sans-serif" font-size="56" font-weight="600" text-anchor="middle">ok</text></svg>
