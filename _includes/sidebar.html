@@ -25,22 +25,48 @@
           <span>{{ site.data.locales[include.lang].tabs.home | upcase }}</span>
         </a>
       </li>
+
       <!-- the real tabs -->
       {% for tab in site.tabs %}
         <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
           <a href="{{ tab.url | relative_url }}" class="nav-link">
             <i class="fa-fw {{ tab.icon }}"></i>
             {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
-
             <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
           </a>
         </li>
-        <!-- .nav-item -->
       {% endfor %}
     </ul>
   </nav>
 
-  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+  <!-- ★ 블로그 방문자수 MyHits 뱃지 (UI 변경 없이 추가) -->
+  {% assign myhits_base = site.myhits.base | default: site.url | default: 'https://okorion.github.io' %}
+  {% assign myhits_label = '블로그 방문자 수    ' | uri_escape %}
+  {% capture myhits_target %}
+    {{ myhits_base }}{{ site.baseurl }}/
+  {% endcapture %}
+  {% assign myhits_target = myhits_target | strip %}
+  {% assign myhits_encoded = myhits_target | replace: ':', '%3A' | replace: '/', '%2F' %}
+
+  <div class="mb-3 align-items-center w-100" style="padding-left: 32px;">
+    <a
+      href="https://myhits.vercel.app"
+      rel="noopener"
+      target="_blank"
+      style="white-space: nowrap;"
+    >
+      <img
+        src="https://myhits.vercel.app/api/hit/{{ myhits_encoded }}?color=blue&label={{ myhits_label }}&size=small"
+        alt="블로그 방문자 수"
+        loading="lazy"
+        decoding="async"
+        style="vertical-align: middle;"
+      >
+    </a>
+  </div>
+  <!-- ★ MyHits 추가 끝 -->
+
+  <div class="sidebar-bottom d-flex flex-wrap align-items-center w-100">
     {% unless site.theme_mode %}
       <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
         <i class="fas fa-adjust"></i>
@@ -62,6 +88,7 @@
           {%- capture url -%}
             https://{{ entry.type }}.com/{{ site[entry.type].username }}
           {%- endcapture -%}
+
         {% when 'email' %}
           {%- unless site.social.email -%}
             {%- continue -%}
@@ -70,6 +97,7 @@
           {%- capture url -%}
             javascript:location.href = 'mailto:' + ['{{ email[0] }}','{{ email[1] }}'].join('@')
           {%- endcapture -%}
+
         {% when 'rss' %}
           {% assign url = '/feed.xml' | relative_url %}
         {% else %}
