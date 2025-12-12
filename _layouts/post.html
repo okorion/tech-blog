@@ -91,6 +91,25 @@ script_includes:
 
           <!-- read time -->
           {% include read-time.html content=content prompt=true lang=lang %}
+
+          {% comment %} MyHits view counter badge {% endcomment %}
+          {% assign myhits_base = site.myhits.base | default: site.url | default: 'https://okorion.github.io' %}
+          {% capture myhits_target %}{{ myhits_base }}{{ site.baseurl }}{{ page.url }}{% endcapture %}
+          {% assign myhits_encoded = myhits_target | uri_escape %}
+          {% assign myhits_label = '게시글 조회수' | uri_escape %}
+          <a
+            class="ms-3 align-middle"
+            href="https://myhits.vercel.app"
+            rel="noopener"
+            target="_blank"
+          >
+            <img
+              src="https://myhits.vercel.app/api/hit/{{ myhits_encoded }}?color=blue&label={{ myhits_label }}&size=small"
+              alt="게시글 조회수    "
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
         </div>
       </div>
     </div>

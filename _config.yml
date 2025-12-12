@@ -136,6 +136,10 @@ assets:
     # only works if `assets.self_host.enabled` is 'true'
     env: # [development | production]
 
+# Custom integrations
+myhits:
+  base: "https://okorion.github.io"
+
 pwa:
   enabled: true # The option for PWA feature (installable)
   cache:
