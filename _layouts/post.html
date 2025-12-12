@@ -34,6 +34,7 @@ script_includes:
         </span>
       {% endif %}
 
+      <!-- preview image -->
       {% if page.image %}
         {% capture src %}src="{{ page.image.path | default: page.image }}"{% endcapture %}
         {% capture class %}class="preview-img{% if page.image.no_bg %}{{ ' no-bg' }}{% endif %}"{% endcapture %}
@@ -89,25 +90,37 @@ script_includes:
             </span>
           {% endif %}
 
-          <!-- read time -->
+        <!-- read time + MyHits (같은 라인, 세로 중앙 정렬) -->
+        <div class="d-flex align-items-center">
           {% include read-time.html content=content prompt=true lang=lang %}
 
           {% comment %} MyHits view counter badge {% endcomment %}
-          {% assign myhits_base = site.myhits.base | default: site.url | default: 'https://okorion.github.io' %}
-          {% capture myhits_target %}{{ myhits_base }}{{ site.baseurl }}{{ page.url }}{% endcapture %}
-          {% assign myhits_encoded = myhits_target | uri_escape %}
-          {% assign myhits_label = '게시글 조회수' | uri_escape %}
+          {% assign myhits_base = site.myhits.base | default: 'https://okorion.github.io' %}
+
+          {%- capture myhits_target -%}
+          {{ myhits_base }}{{ site.baseurl }}{{ page.url }}
+          {%- endcapture -%}
+          {% assign myhits_target = myhits_target | strip %}
+
+          {% assign myhits_encoded = myhits_target
+            | replace: ':', '%3A'
+            | replace: '/', '%2F'
+          %}
+          {% assign myhits_label = '게시글 조회수    ' | uri_escape %}
+
           <a
-            class="ms-3 align-middle"
+            class="ms-2 d-flex align-items-center"
             href="https://myhits.vercel.app"
             rel="noopener"
             target="_blank"
+            style="white-space: nowrap;"
           >
             <img
               src="https://myhits.vercel.app/api/hit/{{ myhits_encoded }}?color=blue&label={{ myhits_label }}&size=small"
-              alt="게시글 조회수    "
+              alt="게시글 조회수"
               loading="lazy"
               decoding="async"
+              style="vertical-align: middle;"
             >
           </a>
         </div>
@@ -144,7 +157,6 @@ script_includes:
   </div>
 
   <div class="post-tail-wrapper text-muted">
-    <!-- categories -->
     {% if page.categories.size > 0 %}
       <div class="post-meta mb-3">
         <i class="far fa-folder-open fa-fw me-1"></i>
@@ -155,7 +167,6 @@ script_includes:
       </div>
     {% endif %}
 
-    <!-- tags -->
     {% if page.tags.size > 0 %}
       <div class="post-tags">
         <i class="fa fa-tags fa-fw me-1"></i>
@@ -170,27 +181,19 @@ script_includes:
       </div>
     {% endif %}
 
-    <div
-      class="
-        post-tail-bottom
-        d-flex justify-content-between align-items-center mt-5 pb-2
-      "
-    >
+    <div class="post-tail-bottom d-flex justify-content-between align-items-center mt-5 pb-2">
       <div class="license-wrapper">
         {% if site.data.locales[lang].copyright.license.template %}
           {% capture _replacement %}
-        <a href="{{ site.data.locales[lang].copyright.license.link }}">
-          {{ site.data.locales[lang].copyright.license.name }}
-        </a>
-        {% endcapture %}
-
+            <a href="{{ site.data.locales[lang].copyright.license.link }}">
+              {{ site.data.locales[lang].copyright.license.name }}
+            </a>
+          {% endcapture %}
           {{ site.data.locales[lang].copyright.license.template | replace: ':LICENSE_NAME', _replacement }}
         {% endif %}
       </div>
 
       {% include post-sharing.html lang=lang %}
     </div>
-    <!-- .post-tail-bottom -->
   </div>
-  <!-- div.post-tail-wrapper -->
 </article>
