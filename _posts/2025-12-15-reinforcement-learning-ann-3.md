@@ -8,10 +8,6 @@ date: 2025-12-15 21:42:00 +09:00
 last_modified_at: 2025-12-15 21:42:00 +09:00
 ---
 
-# DQN 실전 템플릿: Q-Network, Target Network, Replay Buffer, ε-greedy, Soft Update
-
----
-
 ## 이 글의 목적
 
 **핵심 요약**

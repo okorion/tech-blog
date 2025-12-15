@@ -8,10 +8,6 @@ date: 2025-12-15 21:54:00 +09:00
 last_modified_at: 2025-12-15 21:54:00 +09:00
 ---
 
-# RNN/LSTM 직관: hidden state, 시퀀스, vanishing gradient를 ‘왜’로부터 이해하기
-
----
-
 ## TL;DR
 
 * RNN은 **“이전 정보가 현재 판단에 영향을 주는 문제”**를 풀기 위한 구조다.

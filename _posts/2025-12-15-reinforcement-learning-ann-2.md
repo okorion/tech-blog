@@ -8,10 +8,6 @@ date: 2025-12-15 21:41:00 +09:00
 last_modified_at: 2025-12-15 21:41:00 +09:00
 ---
 
-# Q-Learning의 핵심 직관: Bellman, TD Error, Living Penalty, 탐험–활용, 그리고 V→Q 전환
-
----
-
 ## 이 글의 목적
 
 **핵심 요약**
