@@ -283,7 +283,7 @@ Raw HTML은 React의 **안전장치를 우회**한다.
 ### 잘못된 예
 
 ```tsx
-<div dangerouslySetInnerHTML={{ __html: html }} />
+{% raw %}<div dangerouslySetInnerHTML={{ __html: html }} />{% endraw %}
 ```
 
 XSS, 구조 파악 불가, 스타일/이벤트 제어 불가 문제가 뒤따른다.

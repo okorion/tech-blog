@@ -172,11 +172,11 @@ Props 이름은 사용자를 **올바른 방향으로 유도하거나, 실수를
 * style 객체를 API로 만들지 않는다
 
 ```tsx
-// ❌ 스타일을 API로 노출
+{% raw %}// ❌ 스타일을 API로 노출
 <Card style={{ marginTop: 12 }} />
 
 // ✅ 의미 있는 props
-<Card spaced />
+<Card spaced />{% endraw %}
 ```
 
 **실무 체크리스트**
