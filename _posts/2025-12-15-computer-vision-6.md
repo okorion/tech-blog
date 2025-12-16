@@ -2,7 +2,7 @@
 title: "생성 모델을 한 장의 프레임으로 이해하기"
 description: "오토인코더·DeepDream/Style·GAN까지 생성 모델을 표현 학습 관점에서 한눈에 정리"
 categories: ["🥽 Computer Vision"]
-tags: [GenerativeModel, Autoencoder, GAN, Representation]
+tags: [GenerativeModel, AutoEncoder, GAN, Representation]
 image: /assets/posts/2025-12-15-computer-vision/image.jpg
 date: 2025-12-15 23:20:00 +09:00
 last_modified_at: 2025-12-15 23:20:00 +09:00
