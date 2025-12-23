@@ -151,17 +151,17 @@ metrics: [AUC]
 
 1. EarlyStopping
 
-* 기준: val_loss
-* patience: 3~5
-* restore_best_weights=True
+   * 기준: val_loss
+   * patience: 3~5
+   * restore_best_weights=True
 
 2. ReduceLROnPlateau
 
-* 학습 정체 시 LR 감소
+   * 학습 정체 시 LR 감소
 
 3. ModelCheckpoint
 
-* 최적 모델 저장
+   * 최적 모델 저장
 
 **이유:**
 
