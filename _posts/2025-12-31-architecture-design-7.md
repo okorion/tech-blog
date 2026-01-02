@@ -81,12 +81,17 @@ Event Bus(선택) -> Indexer -> Search Index
 ```
 
 데이터 흐름(게시글 작성)
+
 1) Post Service: RDB에 게시글 저장(트랜잭션)
+
 2) 이벤트 발행(옵션): `PostCreated`
+
 3) Indexer가 검색 인덱스 갱신(비동기)
 
 데이터 흐름(게시글 조회)
+
 1) 캐시 조회(Feed/Post cache) hit → 응답  
+
 2) miss → RDB 조회 → 캐시 저장 → 응답
 
 **다른 선택지 2개(버린 이유)**
@@ -211,9 +216,13 @@ Audit Log Store(append-only)
 ```
 
 데이터 흐름(주문 생성→결제)
+
 1) Order Service: 주문 생성(상태=CREATED)
+
 2) Payment Service: 결제 요청(멱등키)
+
 3) 결제 성공 → 주문 상태 PAID
+
 4) Shipping 이벤트 발행(비동기)
 
 **다른 선택지 2개(버린 이유)**
