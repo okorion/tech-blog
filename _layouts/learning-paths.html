@@ -1,0 +1,64 @@
+---
+layout: page
+---
+{% include lang.html %}
+
+<section class="learning-paths-intro">
+  <p class="learning-paths-eyebrow">Learning Paths</p>
+  <h1>주제별로 순서 있게 읽기</h1>
+  <p>
+    카테고리를 학습 흐름에 맞게 다시 묶었습니다. 각 경로는 위에서 아래로 읽으면 기본기, 실전 패턴,
+    운영 관점이 자연스럽게 이어지도록 구성했습니다.
+  </p>
+</section>
+
+<div class="learning-paths">
+  {% for learning_path in site.data.learning_paths %}
+    {% assign total_posts = 0 %}
+    {% for category in learning_path.categories %}
+      {% assign category_posts = site.categories[category] %}
+      {% if category_posts %}
+        {% assign total_posts = total_posts | plus: category_posts.size %}
+      {% endif %}
+    {% endfor %}
+
+    <section class="learning-path" data-learning-path data-post-count="{{ total_posts }}">
+      <div class="learning-path-header">
+        <div>
+          <p class="learning-path-step">Path {{ forloop.index }}</p>
+          <h2>{{ learning_path.title }}</h2>
+          <p>{{ learning_path.description }}</p>
+        </div>
+        <div class="learning-path-progress-wrap" aria-label="읽은 글 진행률">
+          <span class="learning-path-progress-label" data-progress-label>0 / {{ total_posts }}</span>
+          <span class="learning-path-progress-track" aria-hidden="true">
+            <span class="learning-path-progress-bar" data-progress-bar></span>
+          </span>
+        </div>
+      </div>
+
+      {% for category in learning_path.categories %}
+        {% assign category_posts = site.categories[category] %}
+        {% if category_posts %}
+          {% assign sorted_posts = category_posts | sort: 'date' %}
+          <div class="learning-path-category">
+            <h3>
+              {{ category }}
+              <span>{{ sorted_posts.size }}</span>
+            </h3>
+            <ol class="learning-path-posts">
+              {% for post in sorted_posts %}
+                <li>
+                  <a href="{{ post.url | relative_url }}">
+                    <span class="learning-path-post-title">{{ post.title }}</span>
+                  </a>
+                  {% include datetime.html date=post.date class='learning-path-post-date text-muted small text-nowrap' lang=lang %}
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </section>
+  {% endfor %}
+</div>
