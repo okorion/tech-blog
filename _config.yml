@@ -149,6 +149,9 @@ pwa:
     # shares the same domain name as the current website.
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
+    # URL prefixes defined here will be excluded from the PWA cache.
+    deny_url_prefixes:
+      - "https://myhits.vercel.app/api/hit/"
 
 paginate: 10
 
