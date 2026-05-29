@@ -1,0 +1,25 @@
+---
+layout: compress
+permalink: /assets/js/data/tag-graph.json
+---
+{
+  "tags": [
+    {% for tag in site.tags %}
+      {% assign tag_name = tag[0] %}
+      {
+        "name": {{ tag_name | jsonify }},
+        "count": {{ tag[1].size }},
+        "url": {{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "posts": [
+    {% for post in site.posts %}
+      {
+        "title": {{ post.title | jsonify }},
+        "url": {{ post.url | relative_url | jsonify }},
+        "tags": {{ post.tags | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}

@@ -47,3 +47,17 @@
     {{ site.data.locales[include.lang].meta | replace: ':PLATFORM', _platform | replace: ':THEME', _theme }}
   </p>
 </footer>
+
+<script
+  defer
+  src="{{ '/assets/js/reading-state.js' | relative_url }}"
+  data-baseurl="{{ site.baseurl }}"
+></script>
+
+<script
+  defer
+  src="{{ '/assets/js/site-tools.js' | relative_url }}"
+  data-baseurl="{{ site.baseurl }}"
+  data-command-source="{{ '/assets/js/data/command-palette.json' | relative_url }}"
+  data-tag-graph-source="{{ '/assets/js/data/tag-graph.json' | relative_url }}"
+></script>

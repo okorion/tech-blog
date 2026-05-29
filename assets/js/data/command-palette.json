@@ -1,0 +1,70 @@
+---
+layout: compress
+permalink: /assets/js/data/command-palette.json
+---
+{
+  "items": [
+    {% assign first_item = true %}
+    {% assign home_title = site.data.locales[site.lang].tabs.home | default: 'Home' %}
+    {% capture item %}{
+      "type": "page",
+      "title": {{ home_title | jsonify }},
+      "label": "Page",
+      "url": {{ '/' | relative_url | jsonify }},
+      "keywords": "home main"
+    }{% endcapture %}
+    {{ item }}{% assign first_item = false %}
+
+    {% for tab in site.tabs %}
+      {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
+      {% assign tab_title = site.data.locales[site.lang].tabs[tab_name] | default: tab.title %}
+      {% capture item %}{
+        "type": "page",
+        "title": {{ tab_title | jsonify }},
+        "label": "Page",
+        "url": {{ tab.url | relative_url | jsonify }},
+        "keywords": {{ tab.title | default: tab_name | jsonify }}
+      }{% endcapture %}
+      ,{{ item }}
+    {% endfor %}
+
+    {% for post in site.posts %}
+      {% assign post_category = post.categories | first | default: 'Post' %}
+      {% capture post_keywords %}{{ post.tags | join: ' ' }} {{ post.categories | join: ' ' }}{% endcapture %}
+      {% capture item %}{
+        "type": "post",
+        "title": {{ post.title | jsonify }},
+        "label": {{ post_category | jsonify }},
+        "url": {{ post.url | relative_url | jsonify }},
+        "keywords": {{ post_keywords | strip | jsonify }}
+      }{% endcapture %}
+      ,{{ item }}
+    {% endfor %}
+
+    {% for category in site.categories %}
+      {% assign category_name = category[0] %}
+      {% capture category_url %}{{ category_name | slugify | url_encode | prepend: '/categories/' | append: '/' | relative_url }}{% endcapture %}
+      {% capture item %}{
+        "type": "category",
+        "title": {{ category_name | jsonify }},
+        "label": "Category",
+        "url": {{ category_url | jsonify }},
+        "keywords": "category"
+      }{% endcapture %}
+      ,{{ item }}
+    {% endfor %}
+
+    {% for tag in site.tags %}
+      {% assign tag_name = tag[0] %}
+      {% capture tag_url %}{{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}{% endcapture %}
+      {% capture item %}{
+        "type": "tag",
+        "title": {{ tag_name | jsonify }},
+        "label": "Tag",
+        "url": {{ tag_url | jsonify }},
+        "keywords": "tag"
+      }{% endcapture %}
+      ,{{ item }}
+    {% endfor %}
+  ]
+}
