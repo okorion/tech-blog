@@ -459,10 +459,17 @@
     var nodeGroup = document.createElementNS(namespace, "g");
     nodeGroup.setAttribute("class", "tag-graph-nodes");
 
-    graph.edges.forEach(function (edge) {
+    graph.edges.forEach(function (edge, edgeIndex) {
       var source = graph.nodes[edge.source];
       var target = graph.nodes[edge.target];
       var line = document.createElementNS(namespace, "line");
+      line.setAttribute("class", "tag-graph-edge");
+      line.setAttribute("tabindex", "0");
+      line.setAttribute("role", "button");
+      line.setAttribute(
+        "aria-label",
+        source.name + " 와 " + target.name + " 태그 연결"
+      );
       line.setAttribute("x1", source.x.toFixed(1));
       line.setAttribute("y1", source.y.toFixed(1));
       line.setAttribute("x2", target.x.toFixed(1));
@@ -470,6 +477,27 @@
       line.setAttribute("stroke-width", (1 + Math.min(edge.weight, 5) * 0.55).toFixed(1));
       line.dataset.source = edge.source;
       line.dataset.target = edge.target;
+      line.dataset.edgeIndex = edgeIndex;
+      line.style.animationDelay = Math.min(edgeIndex * 8, 360) + "ms";
+      var activateEdge = function () {
+        highlightTagGraphEdge(root, edge);
+        if (status) {
+          status.textContent =
+            source.name + " ↔ " + target.name + " · " + edge.weight + "개 글";
+        }
+      };
+      line.addEventListener("mouseenter", activateEdge);
+      line.addEventListener("mousemove", activateEdge);
+      line.addEventListener("focus", activateEdge);
+      line.addEventListener("mouseleave", function () {
+        resetTagGraph(root);
+        if (status) {
+          status.textContent = "";
+        }
+      });
+      line.addEventListener("blur", function () {
+        resetTagGraph(root);
+      });
       edgeGroup.appendChild(line);
     });
 
@@ -481,6 +509,7 @@
       group.setAttribute("aria-label", node.name + " 태그");
       group.setAttribute("transform", "translate(" + node.x.toFixed(1) + " " + node.y.toFixed(1) + ")");
       group.dataset.index = index;
+      group.style.animationDelay = Math.min(index * 14, 420) + "ms";
 
       var circle = document.createElementNS(namespace, "circle");
       circle.setAttribute("r", node.r.toFixed(1));
@@ -501,16 +530,16 @@
           window.location.href = node.url;
         }
       });
-      group.addEventListener("mouseenter", function () {
+      var activateNode = function () {
         highlightTagGraph(root, index, adjacency);
         if (status) {
           var connected = Object.keys(adjacency[index] || {}).length;
           status.textContent = node.name + " · " + node.count + "개 글 · " + connected + "개 연결";
         }
-      });
-      group.addEventListener("focus", function () {
-        highlightTagGraph(root, index, adjacency);
-      });
+      };
+      group.addEventListener("mouseenter", activateNode);
+      group.addEventListener("mousemove", activateNode);
+      group.addEventListener("focus", activateNode);
       group.addEventListener("mouseleave", function () {
         resetTagGraph(root);
         if (status) {
@@ -527,6 +556,7 @@
     svg.appendChild(edgeGroup);
     svg.appendChild(nodeGroup);
     canvas.appendChild(svg);
+    bindTagListHover(root, graph, adjacency, status);
   }
 
   function highlightTagGraph(root, index, adjacency) {
@@ -535,6 +565,7 @@
       var active = nodeIndex === index || !!(adjacency[index] && adjacency[index][nodeIndex]);
       node.classList.toggle("is-dimmed", !active);
       node.classList.toggle("is-active", nodeIndex === index);
+      node.classList.toggle("is-neighbor", nodeIndex !== index && active);
     });
 
     root.querySelectorAll(".tag-graph-edges line").forEach(function (line) {
@@ -545,12 +576,70 @@
     });
   }
 
+  function highlightTagGraphEdge(root, edge) {
+    root.querySelectorAll(".tag-graph-node").forEach(function (node) {
+      var nodeIndex = Number(node.dataset.index);
+      var active = nodeIndex === edge.source || nodeIndex === edge.target;
+      node.classList.toggle("is-dimmed", !active);
+      node.classList.toggle("is-active", active);
+      node.classList.remove("is-neighbor");
+    });
+
+    root.querySelectorAll(".tag-graph-edges line").forEach(function (line) {
+      var active =
+        Number(line.dataset.source) === edge.source &&
+        Number(line.dataset.target) === edge.target;
+      line.classList.toggle("is-active", active);
+      line.classList.toggle("is-dimmed", !active);
+    });
+  }
+
   function resetTagGraph(root) {
     root
       .querySelectorAll(".tag-graph-node, .tag-graph-edges line")
       .forEach(function (element) {
-        element.classList.remove("is-active", "is-dimmed");
+        element.classList.remove("is-active", "is-dimmed", "is-neighbor");
       });
+  }
+
+  function bindTagListHover(root, graph, adjacency, status) {
+    var urlToIndex = {};
+    graph.nodes.forEach(function (node, index) {
+      urlToIndex[node.url] = index;
+    });
+
+    document.querySelectorAll("#tags a.tag").forEach(function (link) {
+      var index = urlToIndex[link.getAttribute("href")];
+      if (index === undefined) {
+        return;
+      }
+
+      link.dataset.graphLinked = "true";
+      if (link.dataset.graphHoverBound === "true") {
+        return;
+      }
+      link.dataset.graphHoverBound = "true";
+      var activateTagLink = function () {
+        var node = graph.nodes[index];
+        highlightTagGraph(root, index, adjacency);
+        if (status) {
+          var connected = Object.keys(adjacency[index] || {}).length;
+          status.textContent = node.name + " · " + node.count + "개 글 · " + connected + "개 연결";
+        }
+      };
+      link.addEventListener("mouseenter", activateTagLink);
+      link.addEventListener("mousemove", activateTagLink);
+      link.addEventListener("focus", activateTagLink);
+      link.addEventListener("mouseleave", function () {
+        resetTagGraph(root);
+        if (status) {
+          status.textContent = "";
+        }
+      });
+      link.addEventListener("blur", function () {
+        resetTagGraph(root);
+      });
+    });
   }
 
   function initTagGraph() {
