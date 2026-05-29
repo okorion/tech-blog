@@ -328,38 +328,26 @@ a[data-read-state="read"] {
 .tag-graph-edges line {
   stroke: var(--main-border-color);
   stroke-linecap: round;
-  transition: filter 180ms ease, opacity 180ms ease, stroke 180ms ease, stroke-width 180ms ease;
-}
-
-.tag-graph-edge {
-  animation: tag-edge-enter 520ms ease both;
-  cursor: crosshair;
-  pointer-events: stroke;
+  transition: opacity 140ms ease, stroke 140ms ease;
 }
 
 .tag-graph-edges line.is-active {
-  animation: tag-edge-flow 820ms linear infinite;
-  filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.48));
   opacity: 0.95;
   stroke: var(--link-color);
-  stroke-dasharray: 8 10;
 }
 
 .tag-graph-edges line.is-dimmed {
-  opacity: 0.08;
+  opacity: 0.1;
 }
 
 .tag-graph-node {
-  animation: tag-node-enter 420ms cubic-bezier(0.2, 0.9, 0.25, 1.1) both;
   cursor: pointer;
   outline: none;
 }
 
 .tag-graph-node circle {
   opacity: 0.9;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: filter 180ms ease, opacity 180ms ease, stroke-width 180ms ease, transform 180ms ease;
+  transition: opacity 140ms ease, stroke-width 140ms ease, transform 140ms ease;
 }
 
 .tag-graph-node text {
@@ -375,26 +363,13 @@ a[data-read-state="read"] {
 
 .tag-graph-node.is-active circle,
 .tag-graph-node:focus circle {
-  filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.48));
   opacity: 1;
   stroke: var(--text-color);
   stroke-width: 3px;
-  transform: scale(1.22);
-}
-
-.tag-graph-node.is-neighbor circle {
-  opacity: 0.96;
-  stroke: var(--main-border-color);
-  stroke-width: 2px;
-  transform: scale(1.08);
-}
-
-.tag-graph-node.is-active text {
-  font-size: 0.86rem;
 }
 
 .tag-graph-node.is-dimmed {
-  opacity: 0.2;
+  opacity: 0.24;
 }
 
 .tag-graph-status {
@@ -402,58 +377,6 @@ a[data-read-state="read"] {
   font-size: 0.85rem;
   min-height: 1.2rem;
   margin: 0.6rem 0 0;
-}
-
-#tags a.tag[data-graph-linked="true"] {
-  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease;
-}
-
-#tags a.tag[data-graph-linked="true"]:hover,
-#tags a.tag[data-graph-linked="true"]:focus {
-  border-color: var(--link-color);
-  color: var(--link-color);
-  transform: translateY(-1px);
-}
-
-@keyframes tag-node-enter {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes tag-edge-enter {
-  from {
-    opacity: 0;
-    stroke-dasharray: 2 16;
-    stroke-dashoffset: 18;
-  }
-  to {
-    opacity: 1;
-    stroke-dasharray: 0;
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes tag-edge-flow {
-  to {
-    stroke-dashoffset: -18;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tag-graph-edge,
-  .tag-graph-node,
-  .tag-graph-edges line.is-active {
-    animation: none;
-  }
-
-  .tag-graph-node circle,
-  #tags a.tag[data-graph-linked="true"] {
-    transition: none;
-  }
 }
 
 @media (max-width: 768px) {
